@@ -2,7 +2,7 @@ import pytest
 import subprocess
 from pathlib import Path
 
-from ingest.pipeline import clone_repository, create_temp_workspace
+from ingest.clone_repo import clone_repository, create_temp_workspace
 
 
 TEST_REPO_URL = "https://github.com/anthonynmh/pnp-rag.git"
