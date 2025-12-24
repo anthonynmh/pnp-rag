@@ -24,4 +24,4 @@ test = [
 addopts = "-v"
 
 [tool.setuptools]
-packages = ["config", "ingest"]
+packages = ["ingest"]
