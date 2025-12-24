@@ -12,14 +12,13 @@ Responsibilities (at a glance):
 
 from __future__ import annotations
 
+import subprocess
 import argparse
-import os
-import shutil
-import sys
 import tempfile
 from pathlib import Path
 from typing import Iterable, List, Dict, Any, Optional, Tuple
-from constants import DEFAULT_ALLOWED_EXTENSIONS
+
+from ingest.constants import DEFAULT_ALLOWED_EXTENSIONS
 
 # ---------------------------------------------------------------------------
 # Parse CLI arguments
@@ -67,13 +66,7 @@ def run_pipeline(repo_url: str, *, branch: str | None = None) -> None:
     happens in well-defined stages below.
     """
     with create_temp_workspace() as workspace:
-
-        print(f"created temp dir at {workspace}")
-        print(f"attemping to clone repo at url = {repo_url}, using branch = {branch}")
-
         repo_path = clone_repository(repo_url, workspace, branch=branch)
-
-        print(f"cloned repo successfully at repo path = {repo_path}")
 
         # --- todo ---
 
@@ -86,6 +79,8 @@ def run_pipeline(repo_url: str, *, branch: str | None = None) -> None:
         # embeddings = embed_chunks(chunk_ready_units)
         # persist_embeddings(embeddings)
         pass
+
+    print("temp workspace cleaned up")
 
 
 # ---------------------------------------------------------------------------
@@ -106,17 +101,29 @@ def clone_repository(
     """
     Clone a remote GitHub repository into the provided workspace.
 
-    Expected behavior:
-    - Use git CLI or a library (e.g., GitPython)
-    - Optionally checkout a specific branch or commit
-    - Return the local path to the cloned repo
+    Uses the git CLI. Raises RuntimeError on failure.
     """
-    repo_path = Path(workspace) / "repo"
+    repo_name = Path(repo_url.rstrip("/")).stem
+    repo_path = Path(workspace) / repo_name
 
-    # TODO:
-    # - git clone repo_url repo_path
-    # - optionally checkout branch
-    # - handle errors / retries / auth
+    if repo_path.exists():
+        raise RuntimeError(f"Repository path already exists: {repo_path}")
+
+    clone_cmd = ["git", "clone", repo_url, str(repo_path)]
+
+    if branch:
+        clone_cmd.extend(["--branch", branch])
+
+    try:
+        subprocess.run(
+            clone_cmd,
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+        )
+    except subprocess.CalledProcessError as exc:
+        raise RuntimeError(f"Failed to clone repository: {exc.stderr}") from exc
 
     return repo_path
 
