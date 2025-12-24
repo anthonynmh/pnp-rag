@@ -25,7 +25,7 @@ from ingest.clone_repo import clone_repository, create_temp_workspace
 # ---------------------------------------------------------------------------
 
 
-def parse_cli_args() -> Tuple[str, Optional[str]]:
+def parse_cli_args() -> Tuple[str, str]:
     """
     Parse command-line arguments for the pipeline.
 
