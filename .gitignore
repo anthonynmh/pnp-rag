@@ -1,3 +1,20 @@
+# Python bytecode
 __pycache__/
 *.pyc
+
+# Virtual environments
+.venv/
+venv/
+
+# Packaging
+*.egg-info/
+dist/
+build/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# local settings
 .vscode/
