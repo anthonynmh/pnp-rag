@@ -20,7 +20,7 @@ test = [
 ]
 
 [tool.pytest.ini_options]
-# testpaths = ["tests"]  # enable once tests/ exists
+testpaths = ["ingest/tests"]
 addopts = "-v"
 
 [tool.setuptools]
