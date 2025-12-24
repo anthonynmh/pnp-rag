@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pnp-rag"
+version = "0.1.0"
+description = "RAG pipeline utilities"
+requires-python = ">=3.11"
+
+dependencies = [
+  "faiss-cpu",
+  "sentence-transformers",
+  "tqdm",
+]
+
+[project.optional-dependencies]
+test = [
+  "pytest>=9.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["ingest/tests"]
+addopts = "-v"
+
+[tool.setuptools]
+packages = ["ingest"]
