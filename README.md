@@ -45,10 +45,11 @@ The `run_pipeline` function orchestrates these stages declaratively.
 
 ``` bash
 .
-├── pipeline.py # Pipeline entrypoint and orchestration
-├── config/ # Configuration and constants
+├── .github/ # GitHub Actions workflows
 ├── ingest/ # Repository ingestion logic
-├── tests/ # Pytest test suite
+│   ├── pipeline.py # Pipeline entrypoint and orchestration
+│   ├── constants.py # Configuration and constants
+│   └── tests/ # Pytest test suite
 ├── pyproject.toml # Project metadata and dependencies
 └── README.md
 ```
@@ -66,7 +67,7 @@ The `run_pipeline` function orchestrates these stages declaratively.
 ### Create a virtual environment
 
 ```bash
-python3.13 -m venv .venv/pnp-rag
+python3 -m venv .venv/pnp-rag
 source .venv/pnp-rag/bin/activate
 ```
 
@@ -74,7 +75,7 @@ source .venv/pnp-rag/bin/activate
 
 ``` bash
 python -m pip install --upgrade pip
-pip install -e '.[test]'
+python -m pip install -e '.[test]'
 ```
 
 This installs:
