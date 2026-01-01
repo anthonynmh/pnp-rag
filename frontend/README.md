@@ -1,73 +1,69 @@
-# React + TypeScript + Vite
+# PromptCraft Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repository contains the frontend application for **PromptCraft**, a platform designed to help users build better AI prompts with ease. It offers both a "Quick Start" mode for simple settings and an "Advanced Mode" for guided prompt engineering.
 
-Currently, two official plugins are available:
+## ✨ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+*   **Quick Start Mode:** Easily adjust AI role, tone, and response format using intuitive dropdowns.
+*   **Advanced Mode:** Guided prompt building with dedicated fields for defining the task, context, target audience, desired examples, output format, and specific constraints.
+*   **Interactive Chat Interface:** A dynamic chat area where users can input their prompts and view AI responses (currently mock responses).
+*   **Augmented Prompt Visibility:** Option to display the full augmented prompt that is constructed and sent to the AI based on your selections.
+*   **Responsive UI:** Built with modern web technologies to ensure a seamless experience across various devices.
 
-## React Compiler
+## 🚀 Technologies Used
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+*   **React 19:** A declarative, component-based JavaScript library for building user interfaces.
+*   **TypeScript:** A typed superset of JavaScript that compiles to plain JavaScript, enhancing code quality and maintainability.
+*   **Vite:** A fast and opinionated build tool for modern web projects.
+*   **Tailwind CSS:** A utility-first CSS framework for rapidly building custom designs.
+*   **Shadcn UI:** A collection of re-usable components built using Radix UI and Tailwind CSS.
+*   **ESLint:** Configured with TypeScript-aware rules to maintain high code quality and consistency.
 
-## Expanding the ESLint configuration
+## ⚙️ Setup and Installation
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+To get the PromptCraft frontend up and running on your local machine, follow these steps:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+1.  **Clone the repository:**
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+    ```bash
+    git clone <repository-url>
+    cd frontend
+    ```
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+2.  **Install dependencies:**
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+    ```bash
+    npm install
+    # or
+    yarn install
+    ```
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+3.  **Start the development server:**
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+    ```bash
+    npm run dev
+    # or
+    yarn dev
+    ```
+
+    The application will typically be available at `http://localhost:5173` (or another port if 5173 is in use).
+
+## 💡 Usage
+
+Once the application is running, you can interact with the PromptCraft interface:
+
+*   **Toggle Modes:** Switch between "Quick Start" and "Advanced Mode" using the buttons at the top of the chat interface.
+*   **Quick Start Mode:** Select your desired AI role, tone, and response format from the respective dropdowns. Then, type your prompt into the main input field and click the "Send Message" button.
+*   **Advanced Mode:** In this mode, you'll find guided input fields for "Task," "Context," "Target Audience," "Example(s) of desired output," "Output Format," and "Constraints/Rules." Fill these out to build a more detailed and structured prompt. Your main message can be entered in the "Your message" textarea.
+*   **View Augmented Prompt:** Click the "Show Prompts" button to reveal the full, constructed prompt that is sent to the AI, incorporating all your selected settings and advanced fields.
+
+## 📂 Project Structure
+
+Key directories and files within the `frontend`:
+
+*   `src/app/App.tsx`: The main application component that orchestrates the overall layout and state.
+*   `src/app/components/ChatInterface.tsx`: Contains the core logic and UI for the chat functionality, including the quick start and advanced prompt building features.
+*   `src/app/components/ui/`: Houses the Shadcn UI components used throughout the application.
+*   `src/index.css`: Global CSS styles, including the integration of Tailwind CSS.
+*   `vite.config.ts`: Configuration file for Vite, handling build processes and path aliases.
+*   `eslint.config.js`: ESLint configuration for maintaining code quality and consistency.
