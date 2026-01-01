@@ -23,7 +23,7 @@ export default function App() {
         </div>
 
         {/* Chat Interface - Full Width */}
-        <div className="h-[calc(100vh-200px)] min-h-[700px]">
+        <div className="flex-1 min-h-0">
           <ChatInterface
             selectedRole={selectedRole}
             selectedTone={selectedTone}
