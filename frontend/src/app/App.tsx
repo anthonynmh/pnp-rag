@@ -9,8 +9,8 @@ export default function App() {
   const [advancedMode, setAdvancedMode] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 p-4 md:p-8">
-      <div className="max-w-6xl mx-auto">
+    <div className="h-screen flex flex-col bg-gradient-to-br from-purple-50 to-blue-50">
+      <div className="flex flex-col flex-1 min-h-0  px-4 md:px-8">
         {/* Header */}
         <div className="mb-6 text-center">
           <div className="flex items-center justify-center gap-3 mb-3">

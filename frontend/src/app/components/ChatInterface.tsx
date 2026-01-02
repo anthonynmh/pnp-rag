@@ -199,7 +199,7 @@ ${formatInstructions[selectedFormat as keyof typeof formatInstructions]}`;
   };
 
   return (
-    <Card className="p-6 h-full flex flex-col">
+    <Card className="p-6 h-full flex flex-col min-h-0">
       {/* Mode Toggle */}
       <div className="flex items-center justify-between mb-4 pb-4 border-b">
         <div className="flex items-center gap-3">
@@ -296,7 +296,7 @@ ${formatInstructions[selectedFormat as keyof typeof formatInstructions]}`;
         </div>
       )}
 
-      <ScrollArea className="flex-1 pr-4 mb-4">
+      <ScrollArea className="flex-1 pr-4 mb-4 min-h-0">
         <div className="space-y-4">
           {messages.length === 0 ? (
             <div className="text-center py-12 text-gray-500">
@@ -320,7 +320,7 @@ ${formatInstructions[selectedFormat as keyof typeof formatInstructions]}`;
                       : "bg-gray-100 text-gray-900"
                   }`}
                 >
-                  <div className="whitespace-pre-wrap">{message.content}</div>
+                  <div className="whitespace-pre-wrap break-words">{message.content}</div>
                   
                   {message.role === "user" && showAugmentedPrompt && message.augmentedPrompt && (
                     <div className="mt-3 pt-3 border-t border-blue-400">
@@ -329,7 +329,7 @@ ${formatInstructions[selectedFormat as keyof typeof formatInstructions]}`;
                           Augmented Prompt
                         </Badge>
                       </div>
-                      <div className="text-xs opacity-90 whitespace-pre-wrap font-mono bg-blue-600 p-2 rounded">
+                      <div className="text-xs opacity-90 whitespace-pre-wrap font-mono bg-blue-600 p-2 rounded break-words overflow-x-auto">
                         {message.augmentedPrompt}
                       </div>
                     </div>
