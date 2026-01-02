@@ -9,6 +9,7 @@ import { Badge } from "./ui/badge";
 import { Label } from "./ui/label";
 import { Separator } from "./ui/separator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import { roles, tones, formats } from "../utils/PromptConstants";
 
 interface Message {
   id: string;
@@ -28,21 +29,21 @@ interface ChatInterfaceProps {
   onAdvancedModeChange: (enabled: boolean) => void;
 }
 
-export function ChatInterface({ 
-  selectedRole, 
-  selectedTone, 
+export function ChatInterface({
+  selectedRole,
+  selectedTone,
   selectedFormat,
   advancedMode,
   onRoleChange,
   onToneChange,
   onFormatChange,
-  onAdvancedModeChange,
+  onAdvancedModeChange
 }: ChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [showAugmentedPrompt, setShowAugmentedPrompt] = useState(true);
   const scrollRef = useRef<HTMLDivElement>(null);
-  
+
   // Advanced mode fields
   const [advTask, setAdvTask] = useState("");
   const [advContext, setAdvContext] = useState("");
@@ -63,7 +64,7 @@ export function ChatInterface({
       therapist: "You are an empathetic and supportive therapist. Listen carefully and provide thoughtful, compassionate guidance.",
       coworker: "You are an experienced and helpful co-worker. Provide professional advice and collaborative solutions.",
       coach: "You are a motivational life coach. Inspire action and help set achievable goals.",
-      consultant: "You are a strategic business consultant. Provide analytical insights and actionable recommendations.",
+      consultant: "You are a strategic business consultant. Provide analytical insights and actionable recommendations."
     };
 
     const toneInstructions = {
@@ -71,7 +72,7 @@ export function ChatInterface({
       professional: "Maintain a professional and polished tone.",
       casual: "Keep the conversation relaxed and informal.",
       formal: "Use formal language and structured responses.",
-      enthusiastic: "Be energetic and enthusiastic in your responses.",
+      enthusiastic: "Be energetic and enthusiastic in your responses."
     };
 
     const formatInstructions = {
@@ -79,13 +80,10 @@ export function ChatInterface({
       detailed: "Provide comprehensive, detailed explanations with examples.",
       concise: "Keep responses brief and to the point.",
       stepByStep: "Break down your response into clear, numbered steps.",
-      bulletPoints: "Organize your response using bullet points for clarity.",
+      bulletPoints: "Organize your response using bullet points for clarity."
     };
 
-    let prompt = `${roleInstructions[selectedRole as keyof typeof roleInstructions]}
-
-${toneInstructions[selectedTone as keyof typeof toneInstructions]}
-${formatInstructions[selectedFormat as keyof typeof formatInstructions]}`;
+    let prompt = `${roleInstructions[selectedRole as keyof typeof roleInstructions]}\n\n${toneInstructions[selectedTone as keyof typeof toneInstructions]}\n${formatInstructions[selectedFormat as keyof typeof formatInstructions]}`;
 
     // Add advanced prompt elements if provided (either from props or local state in advanced mode)
     const task = advancedMode ? advTask : "";
@@ -94,69 +92,69 @@ ${formatInstructions[selectedFormat as keyof typeof formatInstructions]}`;
     const ex = advancedMode ? advExamples : "";
     const fmt = advancedMode ? advFormat : "";
     const cons = advancedMode ? advConstraints : "";
-    
+
     if (task) {
       prompt += `\n\nTask: ${task}`;
     }
-    
+
     if (ctx) {
       prompt += `\n\nContext: ${ctx}`;
     }
-    
+
     if (aud) {
       prompt += `\n\nTarget Audience: ${aud}`;
     }
-    
+
     if (ex) {
       prompt += `\n\nExample(s) of desired output:\n${ex}`;
     }
-    
+
     if (fmt) {
       prompt += `\n\nOutput Format: ${fmt}`;
     }
-    
+
     if (cons) {
       prompt += `\n\nConstraints/Rules: ${cons}`;
     }
 
     prompt += `\n\nUser's question: ${userPrompt}`;
-    
+
     return prompt;
   };
 
   const generateMockResponse = (userPrompt: string, augmentedPrompt: string): string => {
     // Simulate different responses based on role and settings
     const prompt = userPrompt.toLowerCase();
-    
+
     if (selectedRole === "teacher") {
       if (selectedFormat === "stepByStep") {
         return "Let me break this down for you step by step:\n\n1. First, understand the core concept\n2. Then, identify the key components\n3. Practice with simple examples\n4. Finally, apply it to more complex scenarios\n\nWould you like me to elaborate on any of these steps?";
       }
       return "That's a great question! Let me explain this in a way that's easy to understand. Think of it like learning to ride a bike - you start with the basics and build up from there. The key is to practice consistently and don't be afraid to make mistakes along the way.";
     }
-    
+
     if (selectedRole === "therapist") {
       return "I hear what you're saying, and it's completely valid to feel that way. Many people experience similar challenges. Let's explore this together. What matters most is that you're taking the time to reflect on this. How does that sit with you?";
     }
-    
+
     if (selectedRole === "coworker") {
       if (selectedFormat === "bulletPoints") {
         return "Here's how I'd approach this:\n\n• Start by gathering all relevant information\n• Consult with the team for their input\n• Create a timeline with clear milestones\n• Review and adjust as needed\n\nHappy to discuss any of these points further!";
       }
       return "Good thinking on bringing this up! From my experience, the best approach is to collaborate with the team early on. I've seen similar situations before, and what worked well was being proactive with communication. Let me know if you'd like to brainstorm some solutions together.";
     }
-    
+
     if (selectedRole === "coach") {
       return "I love your energy around this! This is exactly the kind of mindset that leads to real growth. Let's set some concrete goals and create an action plan. Remember, every expert was once a beginner. What's the first small step you can take today to move forward?";
     }
-    
+
     if (selectedRole === "consultant") {
       if (selectedFormat === "detailed") {
         return "Based on the information provided, here's a comprehensive analysis:\n\nThe current situation presents both challenges and opportunities. From a strategic perspective, we need to consider market dynamics, resource allocation, and long-term sustainability. The data suggests that implementing a phased approach would minimize risk while maximizing potential returns. I recommend conducting a thorough cost-benefit analysis before proceeding.";
       }
       return "From a strategic standpoint, this requires careful analysis. I'd recommend evaluating the ROI, considering market trends, and assessing potential risks. The key is to align this with your overall business objectives and ensure you have the resources to execute effectively.";
     }
-    
+
     return "Thank you for your question. I'm here to help you with that. Based on what you've shared, I can provide guidance tailored to your needs.";
   };
 
@@ -168,18 +166,18 @@ ${formatInstructions[selectedFormat as keyof typeof formatInstructions]}`;
       id: Date.now().toString(),
       role: "user",
       content: input,
-      augmentedPrompt,
+      augmentedPrompt
     };
 
     const assistantMessage: Message = {
       id: (Date.now() + 1).toString(),
       role: "assistant",
-      content: generateMockResponse(input, augmentedPrompt),
+      content: generateMockResponse(input, augmentedPrompt)
     };
 
     setMessages((prev) => [...prev, userMessage, assistantMessage]);
     setInput("");
-    
+
     // Clear advanced fields after sending in advanced mode
     if (advancedMode) {
       setAdvTask("");
@@ -252,11 +250,11 @@ ${formatInstructions[selectedFormat as keyof typeof formatInstructions]}`;
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="teacher">Teacher</SelectItem>
-                  <SelectItem value="therapist">Therapist</SelectItem>
-                  <SelectItem value="coworker">Experienced Co-worker</SelectItem>
-                  <SelectItem value="coach">Life Coach</SelectItem>
-                  <SelectItem value="consultant">Business Consultant</SelectItem>
+                  {roles.map((role) => (
+                    <SelectItem key={role.value} value={role.value}>
+                      {role.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -268,11 +266,11 @@ ${formatInstructions[selectedFormat as keyof typeof formatInstructions]}`;
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="friendly">Friendly</SelectItem>
-                  <SelectItem value="professional">Professional</SelectItem>
-                  <SelectItem value="casual">Casual</SelectItem>
-                  <SelectItem value="formal">Formal</SelectItem>
-                  <SelectItem value="enthusiastic">Enthusiastic</SelectItem>
+                  {tones.map((tone) => (
+                    <SelectItem key={tone.value} value={tone.value}>
+                      {tone.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -284,11 +282,11 @@ ${formatInstructions[selectedFormat as keyof typeof formatInstructions]}`;
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="conversational">Conversational</SelectItem>
-                  <SelectItem value="detailed">Detailed</SelectItem>
-                  <SelectItem value="concise">Concise</SelectItem>
-                  <SelectItem value="stepByStep">Step by Step</SelectItem>
-                  <SelectItem value="bulletPoints">Bullet Points</SelectItem>
+                  {formats.map((format) => (
+                    <SelectItem key={format.value} value={format.value}>
+                      {format.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -302,8 +300,8 @@ ${formatInstructions[selectedFormat as keyof typeof formatInstructions]}`;
             <div className="text-center py-12 text-gray-500">
               <p>Start a conversation with your AI assistant.</p>
               <p className="text-sm mt-2">
-                {advancedMode 
-                  ? "Fill out the guided fields below to craft a detailed prompt." 
+                {advancedMode
+                  ? "Fill out the guided fields below to craft a detailed prompt."
                   : "Your selected settings will enhance the AI's responses."}
               </p>
             </div>
@@ -321,7 +319,7 @@ ${formatInstructions[selectedFormat as keyof typeof formatInstructions]}`;
                   }`}
                 >
                   <div className="whitespace-pre-wrap break-words">{message.content}</div>
-                  
+
                   {message.role === "user" && showAugmentedPrompt && message.augmentedPrompt && (
                     <div className="mt-3 pt-3 border-t border-blue-400">
                       <div className="flex items-center gap-2 mb-2">
@@ -349,7 +347,7 @@ ${formatInstructions[selectedFormat as keyof typeof formatInstructions]}`;
               💡 Fill out the guided questions below to build a comprehensive prompt
             </p>
           </div>
-          
+
           <div className="space-y-3">
             <div className="space-y-2">
               <div className="flex items-center gap-2">
